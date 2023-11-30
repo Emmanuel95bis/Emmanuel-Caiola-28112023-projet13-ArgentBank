@@ -1,27 +1,57 @@
 import "./main.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { setName, getName } from "../authentification/Localstorage";
 
 function UserMain() {
+  const { recup_firstname, recup_lastname } = getName();
+  console.log(recup_firstname);
+  console.log(recup_lastname);
+  const [firstname, setFirstname] = useState("Tonis");
+  const [lastname, setLastname] = useState("Jarvis");
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (recup_firstname !== "") setFirstname(recup_firstname);
+    if (recup_lastname !== "") setLastname(recup_lastname);
+  }, [recup_firstname, recup_lastname]);
+
+  const changeName = () => {
+    console.log(firstname);
+    console.log(lastname);
+    setName(firstname, lastname);
+    setIsEditing(!isEditing);
+  };
 
   const changeHeader = () => {
     setIsEditing(!isEditing);
   };
 
   return (
-    <main class="main bg-dark">
+    <main className="main bg-dark">
       {isEditing ? (
         <div className="header-name">
           <h1>Welcome back </h1>
           <br />
-          <input type="text" placeholder="Tony" className="name-input"></input>
           <input
             type="text"
-            placeholder="Jarvis"
+            placeholder={firstname}
             className="name-input"
+            id="id_firstname"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+          ></input>
+          <input
+            type="text"
+            placeholder={lastname}
+            className="name-input"
+            id="id_lastname"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
           ></input>
           <br />
-          <button className="save-button">Save</button>{" "}
+          <button className="save-button" onClick={changeName}>
+            Save
+          </button>{" "}
           <button className="save-button" onClick={changeHeader}>
             Cancel
           </button>
@@ -31,13 +61,14 @@ function UserMain() {
           <h1>
             Welcome back
             <br />
-            Tony Jarvis!
+            {firstname} {lastname}!
           </h1>
           <button className="edit-button" onClick={changeHeader}>
             Edit Name
           </button>
         </div>
       )}
+
       <h2 class="sr-only">Accounts</h2>
       <section class="account">
         <div class="account-content-wrapper">

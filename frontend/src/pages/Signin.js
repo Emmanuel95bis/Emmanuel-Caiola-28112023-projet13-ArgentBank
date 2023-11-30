@@ -7,10 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../reducer/UsersReducer";
 
 function Signin() {
-  console.log("111111111111111111");
   const user = useSelector((state) => state.user.data);
-  console.log("22222222222222222");
-  console.log(user);
 
   const dispatch = useDispatch();
 
