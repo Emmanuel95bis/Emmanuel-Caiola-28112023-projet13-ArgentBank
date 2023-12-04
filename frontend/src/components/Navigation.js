@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./main.css";
+import "../styles/main.css";
 import argentBankLogo from "../asset/argentBankLogo.png";
 
-function Navigation() {
+function Navigation2(props) {
+  console.log(props.nav);
+  const direction = props.nav === "1" ? "/signin" : "/";
+  console.log(direction);
+
   return (
     <nav class="main-nav">
       <Link to="/">
@@ -16,19 +20,21 @@ function Navigation() {
           <h1 class="sr-only">Argent Bank</h1>
         </a>
       </Link>
-      <div>
-        <a class="main-nav-item" href="./user.html">
-          <i class="fa fa-user-circle"></i>
-        </a>
-        <Link to="/signin">
-          <a class="main-nav-item" href="./index.html">
-            <i class="fa fa-sign-out"></i>
-            Sign In
-          </a>
+      <div className="nav-right">
+        <i class="fa fa-user-circle"></i>
+        {props.nav === "2" ? "Tony" : ""}
+
+        <i class="fa fa-sign-out"></i>
+        <Link to={direction}>
+          {props.nav === "1"
+            ? "Sign In"
+            : props.nav === "2"
+            ? "Sign Out"
+            : "Sign Out"}
         </Link>
       </div>
     </nav>
   );
 }
 
-export default Navigation;
+export default Navigation2;

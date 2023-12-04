@@ -4,10 +4,10 @@ import Navigation from "../components/Navigation";
 import SinginMain from "../components/SigninMain";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../reducer/UsersReducer";
+import { fetchUser } from "../reducer/UsersReducer2";
 
 function Signin() {
-  const user = useSelector((state) => state.user.data);
+  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -16,12 +16,12 @@ function Signin() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(user);
+    console.log("changement", user);
   }, [user]);
 
   return (
     <>
-      <Navigation></Navigation>
+      <Navigation nav="2"></Navigation>
       <SinginMain></SinginMain>
       <Footer></Footer>;
     </>

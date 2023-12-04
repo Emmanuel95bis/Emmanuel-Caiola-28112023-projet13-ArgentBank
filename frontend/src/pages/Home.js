@@ -5,7 +5,7 @@ import HomeMain from "../components/HomeMain";
 function Home() {
   return (
     <>
-      <Navigation></Navigation>
+      <Navigation nav="1"></Navigation>
       <HomeMain></HomeMain>
       <Footer></Footer>;
     </>

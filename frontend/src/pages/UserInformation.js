@@ -1,11 +1,11 @@
-import Navigation2 from "../components/Navigation2";
+import Navigation from "../components/Navigation";
 import UserMain from "../components/UserMain";
 import Footer from "../components/Footer";
 
 function UserInformation() {
   return (
     <>
-      <Navigation2></Navigation2>
+      <Navigation nav="3"></Navigation>
       <UserMain></UserMain>
       <Footer></Footer>;
     </>

@@ -1,11 +1,12 @@
-import "./main.css";
+import "../styles/main.css";
 import React, { useEffect, useState } from "react";
 import { setName, getName } from "../authentification/Localstorage";
 
 function UserMain() {
+  //recup du nom et prénom de localstorge
   const { recup_firstname, recup_lastname } = getName();
-  console.log(recup_firstname);
-  console.log(recup_lastname);
+
+  //création des hooks pour le nom prénom et le type de header selectionné
   const [firstname, setFirstname] = useState("Tonis");
   const [lastname, setLastname] = useState("Jarvis");
   const [isEditing, setIsEditing] = useState(false);
@@ -16,12 +17,11 @@ function UserMain() {
   }, [recup_firstname, recup_lastname]);
 
   const changeName = () => {
-    console.log(firstname);
-    console.log(lastname);
     setName(firstname, lastname);
     setIsEditing(!isEditing);
   };
 
+  //inverser set editing pour changer de menu
   const changeHeader = () => {
     setIsEditing(!isEditing);
   };

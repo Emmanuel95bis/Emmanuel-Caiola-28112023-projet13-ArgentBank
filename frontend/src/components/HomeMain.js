@@ -1,5 +1,5 @@
 import React from "react";
-import "./main.css";
+import "../styles/main.css";
 import iconchat from "../asset/icon-chat.png";
 import iconmoney from "../asset/icon-money.png";
 import iconsecurity from "../asset/icon-security.png";
