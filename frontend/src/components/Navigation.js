@@ -2,8 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 import argentBankLogo from "../asset/argentBankLogo.png";
+import { getName } from "../authentification/Localstorage";
 
 function Navigation2(props) {
+  const recup_firstname = getName();
+  const firstName = recup_firstname.recup_firstname;
+  console.log(recup_firstname.recup_firstname);
+
   console.log(props.nav);
   const direction = props.nav === "1" ? "/signin" : "/";
   console.log(direction);
@@ -21,8 +26,8 @@ function Navigation2(props) {
         </a>
       </Link>
       <div className="nav-right">
-        <i class="fa fa-user-circle"></i>
-        {props.nav === "2" ? "Tony" : ""}
+        {props.nav === "3" && <i className="fa fa-user-circle"></i>}
+        {props.nav === "3" && firstName}
 
         <i class="fa fa-sign-out"></i>
         <Link to={direction}>

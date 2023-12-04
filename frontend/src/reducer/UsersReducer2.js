@@ -4,7 +4,7 @@ import { postLogin } from "../helper/backend_helper";
 // Asynchronous thunk using createAsyncThunk
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (dataUser, dispatch, getState) => {
+  async (email, password, dispatch, getState) => {
     const userLoadingStatus = getState().user.loading;
 
     if (userLoadingStatus === "pending" || userLoadingStatus === "updating") {
@@ -15,7 +15,7 @@ export const fetchUser = createAsyncThunk(
     console.log(userLoadingStatus);
     try {
       console.log("Fetching user data...");
-      const response = await postLogin(dataUser);
+      const response = await postLogin(email, password);
 
       const token = response.body.token;
       localStorage.setItem("jwt", token);

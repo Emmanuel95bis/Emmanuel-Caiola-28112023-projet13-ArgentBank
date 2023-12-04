@@ -19,37 +19,24 @@ function SigninMain() {
     console.log("user variable inside useEffect:", user);
   }, [user]); // Add user as a dependency if needed
 
-  const ValidateUser = (e) => {
+  const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     const currentEmail = email;
     const currentPassword = password;
 
     console.log("Current Email:", currentEmail);
     console.log("Current Password:", currentPassword);
+    try {
+      const response = await fetchUser(postLogin(email, password));
 
-    // const response = dispatch(postLogin({ email, password }));
+      console.log(response);
+      console.log("Authentication successful");
 
-    //dispatch(fetchUser({ email, password }));
-    console.log("Authentication successful");
-
-    // Assuming navigation is done after the user state is updated
-    navigate("/UserInformation");
+      navigate("/UserInformation");
+    } catch (error) {
+      console.error("Authentication error:", error);
+    }
   };
-  /*
-      .then((response) => {
-        console.log("API response:", response);
-        if (response && response.jwt) {
-          console.log("Authentication successful");
-          localStorage.setItem("jwt", response.jwt);
-          navigate("/UserInformation");
-        } else {
-          console.log("Invalid API response format");
-        }
-      })
-      .catch((err) => {
-        console.error("Error during authentication:", err);
-        // Handle errors, e.g., toastError('Incorrect credentials')
-      });*/
 
   return (
     <main className="main bg-dark">
