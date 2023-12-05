@@ -13,11 +13,11 @@ function SigninMain() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  let loginFlag = true;
 
   useEffect(() => {
-    // Log the user variable inside the useEffect
-    console.log("user variable inside useEffect:", user);
-  }, [user]); // Add user as a dependency if needed
+    console.log("changement 11111111", user);
+  }, [user]);
 
   const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -26,14 +26,16 @@ function SigninMain() {
 
     console.log("Current Email:", currentEmail);
     console.log("Current Password:", currentPassword);
+
     try {
       const response = await fetchUser(postLogin(email, password));
 
-      console.log(response);
       console.log("Authentication successful");
 
       navigate("/UserInformation");
     } catch (error) {
+      loginFlag = false;
+      navigate("/signin");
       console.error("Authentication error:", error);
     }
   };
@@ -43,6 +45,7 @@ function SigninMain() {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
+        {!loginFlag && <p>erreur du mot de passe ou login</p>}
         <form onSubmit={ValidateUser}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>

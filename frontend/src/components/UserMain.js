@@ -2,6 +2,8 @@ import "../styles/main.css";
 import React, { useEffect, useState } from "react";
 import { setName, getName } from "../authentification/Localstorage";
 
+import { useDispatch, useSelector } from "react-redux";
+
 function UserMain() {
   //recup du nom et prénom de localstorge
   const { recup_firstname, recup_lastname } = getName();
@@ -25,6 +27,11 @@ function UserMain() {
   const changeHeader = () => {
     setIsEditing(!isEditing);
   };
+
+  console.log(
+    "changement dans usermain",
+    useState((state) => state)
+  );
 
   return (
     <main className="main bg-dark">

@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { postLogin } from "../helper/backend_helper";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 // Asynchronous thunk using createAsyncThunk
 export const fetchUser = createAsyncThunk(
@@ -12,17 +14,20 @@ export const fetchUser = createAsyncThunk(
     }
 
     dispatch(fetchUser.pending());
-    console.log(userLoadingStatus);
+
     try {
       console.log("Fetching user data...");
       const response = await postLogin(email, password);
+      console.log("response", response.status);
+      if (response.status === 200) {
+        const data = { email, password };
+        const token = response.body.token;
+        localStorage.setItem("jwt", token);
 
-      const token = response.body.token;
-      localStorage.setItem("jwt", token);
+        console.log("localstorage", localStorage.getItem("jwt"));
 
-      console.log("localstorage", localStorage.getItem("jwt"));
-
-      dispatch(fetchUser.fulfilled, response.body);
+        dispatch(fetchUser.fulfilled, data);
+      } else return;
     } catch (error) {
       console.error("Error fetching user data:", error);
       throw error;
