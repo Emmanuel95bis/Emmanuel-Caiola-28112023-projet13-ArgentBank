@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import "../styles/main.css";
 
-import { fetchUser } from "../reducer/UsersReducer2";
+import { fetchUser } from "../reducer/UsersReducer3";
 import { useDispatch, useSelector } from "react-redux";
-import { postLogin } from "../helper/backend_helper";
+
+import { postProfile, putProfile } from "../helper/backend_helper";
 
 function SigninMain() {
   const [email, setEmail] = useState("");
@@ -21,15 +22,11 @@ function SigninMain() {
 
   const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const currentEmail = email;
-    const currentPassword = password;
-
-    console.log("Current Email:", currentEmail);
-    console.log("Current Password:", currentPassword);
 
     try {
-      const response = await fetchUser(postLogin(email, password));
-
+      //const response = await fetchUser(postLogin(email, password));
+      await dispatch(fetchUser({ email, password }));
+      //putProfile(email, password, "toto2", "titi2");
       console.log("Authentication successful");
 
       navigate("/UserInformation");

@@ -9,11 +9,8 @@ function Navigation2(props) {
   //recupération du prénom dans le localhost
   const recup_firstname = getName();
   const firstName = recup_firstname.recup_firstname;
-  console.log(recup_firstname.recup_firstname);
 
-  console.log(props.nav);
   const direction = props.nav === "1" ? "/signin" : "/";
-  console.log(direction);
 
   return (
     <nav class="main-nav">

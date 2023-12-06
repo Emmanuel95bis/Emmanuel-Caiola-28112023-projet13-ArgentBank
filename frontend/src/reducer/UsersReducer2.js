@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { postLogin } from "../helper/backend_helper";
+import { postLogin, postProfile } from "../helper/backend_helper";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // Asynchronous thunk using createAsyncThunk
+
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (email, password, dispatch, getState) => {
+  async ({ email, password }, { dispatch, getState }) => {
+    console.log("reducer" + email, password);
     const userLoadingStatus = getState().user.loading;
 
     if (userLoadingStatus === "pending" || userLoadingStatus === "updating") {
@@ -17,17 +19,29 @@ export const fetchUser = createAsyncThunk(
 
     try {
       console.log("Fetching user data...");
-      const response = await postLogin(email, password);
-      console.log("response", response.status);
-      if (response.status === 200) {
+
+      //const response = await postProfile(email, password);
+      const [response] = await postLogin(email, password);
+
+      console.log("response reducer", response);
+      if (response.ok) console.log("reducer1111111111111111");
+      if (response.status === 200) console.log("reducer1111111111111111");
+      if (response && response.status === 200) {
+        console.log("reducer status 200", response.status);
         const data = { email, password };
         const token = response.body.token;
         localStorage.setItem("jwt", token);
 
         console.log("localstorage", localStorage.getItem("jwt"));
 
-        dispatch(fetchUser.fulfilled, data);
-      } else return;
+        dispatch(fetchUser.fulfilled(data));
+      } else {
+        // Handle other response statuses or an undefined response
+        console.log(
+          "API error:",
+          response ? response.status : "Undefined response"
+        );
+      }
     } catch (error) {
       console.error("Error fetching user data:", error);
       throw error;
@@ -53,7 +67,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.pending, (state, action) => {
+    builder.addCase(fetchUser.pending, (state) => {
       return {
         ...state,
         loading: true,

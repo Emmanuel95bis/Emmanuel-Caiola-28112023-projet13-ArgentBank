@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 function UserMain() {
   //recup du nom et prénom de localstorge
+  //postProfile(email, password);
+
   const { recup_firstname, recup_lastname } = getName();
 
   //création des hooks pour le nom prénom et le type de header selectionné
@@ -27,11 +29,6 @@ function UserMain() {
   const changeHeader = () => {
     setIsEditing(!isEditing);
   };
-
-  console.log(
-    "changement dans usermain",
-    useState((state) => state)
-  );
 
   return (
     <main className="main bg-dark">

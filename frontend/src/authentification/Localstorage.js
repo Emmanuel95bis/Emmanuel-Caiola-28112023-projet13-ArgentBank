@@ -9,3 +9,13 @@ export const getName = () => {
   const lastname = localStorage.getItem("LastName");
   return { recup_firstname: firstname, recup_lastname: lastname };
 };
+
+export const setJWT = (token) => {
+  localStorage.removeItem("JWT");
+  localStorage.setItem("JWT", token);
+};
+
+export const getJWT = () => {
+  const token = localStorage.getItem("JWT");
+  return token;
+};
