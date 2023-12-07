@@ -2,8 +2,6 @@ import "../styles/main.css";
 import React, { useEffect, useState } from "react";
 import { setName, getName } from "../authentification/Localstorage";
 
-import { useDispatch, useSelector } from "react-redux";
-
 function UserMain() {
   //recup du nom et prénom de localstorge
   //postProfile(email, password);

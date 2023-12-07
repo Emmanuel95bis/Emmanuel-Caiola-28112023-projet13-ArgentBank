@@ -1,24 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../styles/main.css";
 
 import { fetchUser } from "../reducer/UsersReducer3";
-import { useDispatch, useSelector } from "react-redux";
-
-import { postProfile, putProfile } from "../helper/backend_helper";
+import { useDispatch } from "react-redux";
 
 function SigninMain() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = useSelector((state) => state.user);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   let loginFlag = true;
-
-  useEffect(() => {
-    console.log("changement 11111111", user);
-  }, [user]);
 
   const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -33,7 +27,6 @@ function SigninMain() {
     } catch (error) {
       loginFlag = false;
       navigate("/signin");
-      console.error("Authentication error:", error);
     }
   };
 
