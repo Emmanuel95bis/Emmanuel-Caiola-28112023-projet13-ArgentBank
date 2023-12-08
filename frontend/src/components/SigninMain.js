@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/main.css";
 
 import { fetchUser } from "../reducer/UsersReducer3";
@@ -8,26 +8,28 @@ import { useDispatch, useSelector } from "react-redux";
 function SigninMain() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [logstate, setLogstate] = useState(false);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  let loginFlag = true;
-  const logging = useSelector((state) => state.user.logged);
+  const dispatch = useDispatch();
+
+  const loginFlag = false;
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    setLogstate(user.logged);
+  }, [user.logged]);
+
   const ValidateUser = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    try {
-      await dispatch(fetchUser({ email, password }));
-      console.log("variable logging  " + logging);
-
-      // Navigate conditionally based on login status
-
-      logging ? navigate("/UserInformation") : navigate("/signin");
-    } catch (error) {
-      // Handle authentication error
-      loginFlag = false;
-    }
+    e.preventDefault();
+    await dispatch(fetchUser({ email, password }));
+    // The Redux state will be updated asynchronously
+    // No need to call Retour() immediately after dispatch
   };
+
+  // Use the logstate value directly in the navigate call
+  useEffect(() => {
+    logstate ? navigate("/UserInformation") : navigate("/signin");
+  }, [logstate, navigate]);
 
   return (
     <main className="main bg-dark">
