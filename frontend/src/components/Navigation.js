@@ -1,21 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import argentBankLogo from "../asset/argentBankLogo.png";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { logout } from "../reducer/UsersReducer3";
 
 function Navigation2(props) {
-  const user = useSelector((state) => state.user.data.firstName);
-  const [firstName, setFirstname] = useState(user);
+  let user = useSelector((state) => state.user);
+  if (props.nav === "3") user = user.data.firstName;
 
-  console.log("usermain" + user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [firstName, setFirstname] = useState(user);
 
   useEffect(() => {
     setFirstname(user);
   }, [user]);
-
   const direction = props.nav === "1" ? "/signin" : "/";
+
+  const Logout = () => {
+    dispatch(logout());
+    return navigate("/");
+  };
 
   return (
     <nav class="main-nav">
@@ -34,7 +42,9 @@ function Navigation2(props) {
         {props.nav === "3" && firstName}
 
         <i class="fa fa-sign-out"></i>
-        <Link to={direction}>{props.nav === "1" ? "Sign In" : "Sign Out"}</Link>
+        <Link to={direction} onClick={Logout}>
+          {props.nav === "1" ? "Sign In" : "Sign Out"}
+        </Link>
       </div>
     </nav>
   );

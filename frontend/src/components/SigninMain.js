@@ -3,30 +3,29 @@ import React, { useState } from "react";
 import "../styles/main.css";
 
 import { fetchUser } from "../reducer/UsersReducer3";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function SigninMain() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   let loginFlag = true;
-
+  const logging = useSelector((state) => state.user.logged);
   const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    setPassword("test");
-    try {
-      //const response = await fetchUser(postLogin(email, password));
-      await dispatch(fetchUser({ email, password }));
-      //putProfile(email, password, "toto2", "titi2");
-      console.log("Authentication successful");
 
-      navigate("/UserInformation");
+    try {
+      await dispatch(fetchUser({ email, password }));
+      console.log("variable logging  " + logging);
+
+      // Navigate conditionally based on login status
+
+      logging ? navigate("/UserInformation") : navigate("/signin");
     } catch (error) {
+      // Handle authentication error
       loginFlag = false;
-      navigate("/signin");
     }
   };
 

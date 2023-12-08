@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",
   async ({ firstName, lastName }, { dispatch, getState }) => {
-    console.log("updatereducer" + firstName, lastName);
-    dispatch(updateProfile.pending());
+    dispatch(fetchUser.pending());
 
     try {
       const updateResponse = await putProfile(firstName, lastName);
@@ -16,7 +15,7 @@ export const updateProfile = createAsyncThunk(
       dispatch(fetchUser.fulfilled(updateResponse.body));
     } catch (error) {
       console.log("reducer entre dans erreur");
-      dispatch(updateProfile.rejected({ error: error.message }));
+      dispatch(fetchUser.rejected({ error: error.message }));
     }
   }
 );
@@ -28,10 +27,11 @@ export const fetchUser = createAsyncThunk(
 
     try {
       const loginResponse = await post(email, password);
-      console.log("loginResponse:", loginResponse.body);
-      dispatch(fetchUser.fulfilled(loginResponse.body));
+      if (loginResponse !== 400) {
+        console.log("loginResponse:", loginResponse.body);
+        dispatch(fetchUser.fulfilled(loginResponse.body));
+      }
     } catch (error) {
-      console.log("reducer entre dans erreur");
       dispatch(fetchUser.rejected({ error: error.message }));
     }
   }
@@ -55,47 +55,15 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateProfile.pending, (state) => {
-      console.log("pending" + state.loading);
-      return {
-        ...state,
-        loading: true,
-      };
-    });
-
-    builder.addCase(updateProfile.fulfilled, (state, action) => {
-      console.log("reducer modification initialstate" + state.loading);
-      if (state.loading === true) {
-        console.log("aaaction payload" + action.payload);
-        return {
-          ...state,
-          loading: false,
-          logged: true,
-          data: action.payload,
-        };
-      }
-
-      return state;
-    });
-
-    builder.addCase(updateProfile.rejected, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    });
-
     builder.addCase(fetchUser.pending, (state) => {
-      console.log("pending" + state.loading);
       return {
         ...state,
         loading: true,
+        logged: false,
       };
     });
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      console.log("reducer modification initialstate" + state.loading);
       if (state.loading === true) {
         return {
           ...state,
@@ -111,9 +79,12 @@ const userSlice = createSlice({
       return {
         ...state,
         loading: false,
+        logged: false,
         error: action.payload,
       };
     });
   },
 });
+
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
