@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 import argentBankLogo from "../asset/argentBankLogo.png";
-import { getName } from "../authentification/Localstorage";
-import { useDispatch } from "react-redux";
+
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function Navigation2(props) {
-  //recupération du prénom dans le localhost
-  const recup_firstname = getName();
-  const firstName = recup_firstname.recup_firstname;
+  const user = useSelector((state) => state.user.data.firstName);
+  const [firstName, setFirstname] = useState(user);
+
+  console.log("usermain" + user);
+
+  useEffect(() => {
+    setFirstname(user);
+  }, [user]);
 
   const direction = props.nav === "1" ? "/signin" : "/";
 

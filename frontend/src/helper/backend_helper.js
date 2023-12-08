@@ -10,7 +10,8 @@ export const post = async (email, password) => {
   return await postProfile(PROFILE, "", "");
 };
 
-export const putProfile = (email, password, firstName, LastName) => {
-  post(LOGIN, email, password);
-  put(UPDATE, firstName, LastName);
+export const putProfile = async (firstName, LastName) => {
+  console.log("put111111111111" + firstName, LastName);
+  //await postToken(LOGIN, email, password);
+  return await put(UPDATE, firstName, LastName);
 };

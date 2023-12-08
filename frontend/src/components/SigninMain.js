@@ -16,7 +16,7 @@ function SigninMain() {
 
   const ValidateUser = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-
+    setPassword("test");
     try {
       //const response = await fetchUser(postLogin(email, password));
       await dispatch(fetchUser({ email, password }));

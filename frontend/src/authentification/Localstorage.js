@@ -10,6 +10,16 @@ export const getName = () => {
   return { recup_firstname: firstname, recup_lastname: lastname };
 };
 
+export const setPassword = (password) => {
+  localStorage.removeItem("password");
+  localStorage.setItem("password", password);
+};
+
+export const getPassword = () => {
+  const password = localStorage.getItem("password");
+  return password;
+};
+
 export const setJWT = (token) => {
   localStorage.removeItem("JWT");
   localStorage.setItem("JWT", token);

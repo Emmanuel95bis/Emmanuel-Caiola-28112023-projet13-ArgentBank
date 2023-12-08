@@ -1,26 +1,43 @@
 import "../styles/main.css";
 import React, { useEffect, useState } from "react";
-import { setName, getName } from "../authentification/Localstorage";
+
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../reducer/UsersReducer3";
 
 function UserMain() {
   //recup du nom et prénom de localstorge
   //postProfile(email, password);
-
-  const { recup_firstname, recup_lastname } = getName();
 
   //création des hooks pour le nom prénom et le type de header selectionné
   const [firstname, setFirstname] = useState("Tonis");
   const [lastname, setLastname] = useState("Jarvis");
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    if (recup_firstname !== "") setFirstname(recup_firstname);
-    if (recup_lastname !== "") setLastname(recup_lastname);
-  }, [recup_firstname, recup_lastname]);
+  const user = useSelector((state) => state.user);
+  console.log("usermain" + user.data.firstName);
+  const dispatch = useDispatch();
 
-  const changeName = () => {
-    setName(firstname, lastname);
+  useEffect(() => {
+    setFirstname(user.data.firstName);
+    setLastname(user.data.lastName);
+  }, [user.data.firstName, user.data.lastName]);
+
+  const changeName = async () => {
+    console.log("put00000000000" + firstname, lastname);
+
     setIsEditing(!isEditing);
+
+    try {
+      console.log("put00000000000" + firstname, lastname);
+
+      await dispatch(
+        updateProfile({ firstName: firstname, lastName: lastname })
+      );
+
+      console.log("Authentication successful");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //inverser set editing pour changer de menu
