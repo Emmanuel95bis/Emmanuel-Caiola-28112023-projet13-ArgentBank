@@ -9,11 +9,11 @@ function SigninMain() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [logstate, setLogstate] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(false);
+  //setErrorMessage(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const loginFlag = false;
   const user = useSelector((state) => state.user);
   useEffect(() => {
     setLogstate(user.logged);
@@ -22,13 +22,15 @@ function SigninMain() {
   const ValidateUser = async (e) => {
     e.preventDefault();
     await dispatch(fetchUser({ email, password }));
-    // The Redux state will be updated asynchronously
-    // No need to call Retour() immediately after dispatch
+    setErrorMessage(true);
   };
 
-  // Use the logstate value directly in the navigate call
   useEffect(() => {
-    logstate ? navigate("/UserInformation") : navigate("/signin");
+    if (logstate) {
+      navigate("/UserInformation");
+    } else {
+      navigate("/signin");
+    }
   }, [logstate, navigate]);
 
   return (
@@ -36,7 +38,9 @@ function SigninMain() {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        {!loginFlag && <p>erreur du mot de passe ou login</p>}
+        {errorMessage ? (
+          <p className="error_message">erreur du mot de passe ou login</p>
+        ) : null}
         <form onSubmit={ValidateUser}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
