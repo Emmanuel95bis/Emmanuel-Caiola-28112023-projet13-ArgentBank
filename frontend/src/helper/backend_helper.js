@@ -1,8 +1,8 @@
 import { postProfile, postToken, put } from "./api_helper";
 import { LOGIN, UPDATE, PROFILE } from "./url_helper";
 
-export const postLogin = (email, password) => {
-  return postToken(LOGIN, email, password);
+export const postLogin = async (email, password) => {
+  await postToken(LOGIN, email, password);
 };
 
 export const post = async (email, password) => {

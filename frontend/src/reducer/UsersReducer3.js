@@ -7,6 +7,12 @@ import { useSelector } from "react-redux";
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",
   async ({ firstName, lastName }, { dispatch, getState }) => {
+    // on stop la fonction pour éviter de récupérer plusieurs fois la même donnée
+    /*  const loading = useSelector((state) => state.user.loading);
+    if (loading === true) {
+      return;
+    }*/
+
     dispatch(fetchUser.pending());
 
     try {

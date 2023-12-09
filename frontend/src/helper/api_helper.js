@@ -1,10 +1,9 @@
 import { setJWT, getJWT } from "../authentification/Localstorage";
 
-const token = getJWT();
-console.log("token first: " + token);
-
 export async function put(url, firstName, lastName) {
-  console.log("put22222222222", firstName, lastName, getJWT());
+  const token = getJWT();
+
+  console.log("token debut put", firstName, lastName, token);
   try {
     const response = await fetch(url, {
       method: "PUT",
@@ -34,7 +33,8 @@ export async function put(url, firstName, lastName) {
 }
 
 export async function postToken(url, email, password) {
-  console.log("postToken", email, password, getJWT());
+  const token = getJWT();
+  console.log("token debut recup token", email, password, getJWT());
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -51,8 +51,9 @@ export async function postToken(url, email, password) {
     const data = await response.json();
 
     if (response.ok) {
-      console.log(data.body);
+      console.log("token sortie nouveau token" + data.body);
       setJWT(data.body.token);
+      console.log("token sortie nouveau token localhost" + getJWT());
       return data;
     } else {
       console.error(data);
@@ -65,7 +66,7 @@ export async function postToken(url, email, password) {
 }
 
 export async function postProfile(url, email, password) {
-  console.log("postProfile", email, password, getJWT());
+  console.log("token debut recup profile", email, password, getJWT());
   const token = getJWT();
   try {
     const response = await fetch(url, {
