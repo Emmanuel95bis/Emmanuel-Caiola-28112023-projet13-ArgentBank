@@ -3,8 +3,7 @@ import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import SinginMain from "../components/SigninMain";
 
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../reducer/UsersReducer2";
+import { useSelector } from "react-redux";
 
 function Signin() {
   const user = useSelector((state) => state.user);

@@ -14,7 +14,7 @@ function UserMain() {
   const [isEditing, setIsEditing] = useState(false);
 
   const user = useSelector((state) => state.user);
-  console.log("usermain" + user.data.firstName);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,21 +23,13 @@ function UserMain() {
   }, [user.data.firstName, user.data.lastName]);
 
   const changeName = async () => {
-    console.log("put00000000000" + firstname, lastname);
-
     setIsEditing(!isEditing);
 
     try {
-      console.log("put00000000000" + firstname, lastname);
-
       await dispatch(
         updateProfile({ firstName: firstname, lastName: lastname })
       );
-
-      console.log("Authentication successful");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   //inverser set editing pour changer de menu

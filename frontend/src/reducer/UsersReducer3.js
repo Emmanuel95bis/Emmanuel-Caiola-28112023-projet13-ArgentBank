@@ -1,43 +1,44 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { post, putProfile } from "../helper/backend_helper";
-import { useSelector } from "react-redux";
 
-// Asynchronous thunk using createAsyncThunk
-
+// Asynchronous thunk utilisant createAsyncThunk
+//updateProfile permet de mettre à jour le nom et prénom du profil
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",
   async ({ firstName, lastName }, { dispatch, getState }) => {
-    // on stop la fonction pour éviter de récupérer plusieurs fois la même donnée
-    /*  const loading = useSelector((state) => state.user.loading);
-    if (loading === true) {
-      return;
-    }*/
-
+    //mettre le status en pending, modifiant le state
     dispatch(fetchUser.pending());
 
     try {
+      //appel putProfile qui permet de faire le call API
       const updateResponse = await putProfile(firstName, lastName);
-      console.log("putprofile loginResponse:", updateResponse.body);
+      //mettre le status en fulfilled, modifiant le state
       dispatch(fetchUser.fulfilled(updateResponse.body));
     } catch (error) {
-      console.log("reducer entre dans erreur");
+      //mettre le status en rejected, modifiant le state
       dispatch(fetchUser.rejected({ error: error.message }));
     }
   }
 );
 
+// Asynchronous thunk utilisant createAsyncThunk
+//updateProfile permet de verifier le login et récupérer un token
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async ({ email, password }, { dispatch, getState }) => {
+    //mettre le status en pending, modifiant le state
     dispatch(fetchUser.pending());
 
     try {
+      //appel putProfile qui permet de faire le call API
       const loginResponse = await post(email, password);
+      // si retour différent de 400
       if (loginResponse !== 400) {
-        console.log("loginResponse:", loginResponse.body);
+        //mettre le status en fulfilled, modifiant le state
         dispatch(fetchUser.fulfilled(loginResponse.body));
       }
     } catch (error) {
+      //mettre le status en pending, modifiant le state
       dispatch(fetchUser.rejected({ error: error.message }));
     }
   }
