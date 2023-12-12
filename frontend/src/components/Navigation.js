@@ -26,22 +26,20 @@ function Navigation2(props) {
   };
 
   return (
-    <nav class="main-nav">
-      <Link to="/">
-        <a class="main-nav-logo" href="./index.html">
-          <img
-            class="main-nav-logo-image"
-            src={argentBankLogo}
-            alt="Argent Bank Logo"
-          />
-          <h1 class="sr-only">Argent Bank</h1>
-        </a>
+    <nav className="main-nav">
+      <Link to="/" className="main-nav-logo">
+        <img
+          className="main-nav-logo-image"
+          src={argentBankLogo}
+          alt="Argent Bank Logo"
+        />
+        <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div className="nav-right">
         {props.nav === "3" && <i className="fa fa-user-circle"></i>}
         {props.nav === "3" && firstName}
 
-        <i class="fa fa-sign-out"></i>
+        <i className="fa fa-sign-out"></i>
         <Link to={direction} onClick={Logout}>
           {props.nav === "1" ? "Sign In" : "Sign Out"}
         </Link>

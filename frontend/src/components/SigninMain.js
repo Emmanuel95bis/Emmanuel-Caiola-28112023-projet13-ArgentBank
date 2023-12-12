@@ -1,16 +1,31 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../styles/main.css";
 
 import { fetchUser } from "../reducer/UsersReducer3";
 import { useDispatch, useSelector } from "react-redux";
 
+/*
+const handleClickCheckedBox = (checked, email, password) => {
+  if (checked) {
+    console.log("checked" + checked);
+    setChecked(checked);
+    setLogin(email, password);
+  } else {
+    console.log("checked" + checked);
+    setChecked(checked);
+    setLogin("", "");
+  }
+};*/
+
 function SigninMain() {
+  const checkbox = useRef();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [logstate, setLogstate] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  //setErrorMessage(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -19,19 +34,27 @@ function SigninMain() {
     setLogstate(user.logged);
   }, [user.logged]);
 
+  //A validation du formulaire
   const ValidateUser = async (e) => {
     e.preventDefault();
+
+    //call API pour validation login
     await dispatch(fetchUser({ email, password }));
+
+    //affichage du message d'erreur
     setErrorMessage(true);
   };
 
+  //si logstate est true, la validation est faite et on passe à la page de l'utilisateur
+  //vérification de la case remember me et traitement en fonction de son état
   useEffect(() => {
     if (logstate) {
+      //handleClickCheckedBox(checkbox.current.checked, email, password);
       navigate("/UserInformation");
     } else {
       navigate("/signin");
     }
-  }, [logstate, navigate]);
+  }, [logstate, navigate, email, password]);
 
   return (
     <main className="main bg-dark">
@@ -61,7 +84,7 @@ function SigninMain() {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input type="checkbox" id="remember-me" ref={checkbox} />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button" type="submit">

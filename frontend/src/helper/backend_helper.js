@@ -9,7 +9,8 @@ export const postLogin = async (email, password) => {
 //call API pour récupérer le token et récupération de son profil
 export const post = async (email, password) => {
   await postToken(LOGIN, email, password);
-  return await postProfile(PROFILE, "", "");
+
+  return await postProfile(PROFILE);
 };
 
 //call API pour une mise à jour du profil

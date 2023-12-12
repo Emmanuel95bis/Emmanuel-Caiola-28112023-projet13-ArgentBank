@@ -20,3 +20,26 @@ export const getJWT = () => {
   const token = localStorage.getItem("JWT");
   return token;
 };
+
+export const setChecked = (stateChecked) => {
+  localStorage.removeItem("rememberMe");
+  localStorage.setItem("rememberMe", stateChecked);
+};
+
+export const setLogin = (email, password) => {
+  localStorage.removeItem("email");
+  localStorage.removeItem("password");
+  localStorage.setItem("email", email);
+  localStorage.setItem("password", password);
+};
+
+export const getChecked = () => {
+  const RememberMe = localStorage.getItem("rememberMe");
+  return RememberMe;
+};
+
+export const getLogin = () => {
+  const email = localStorage.getItem("email");
+  const password = localStorage.getItem("password");
+  return [email, password];
+};

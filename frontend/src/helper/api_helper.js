@@ -63,7 +63,7 @@ export async function postToken(url, email, password) {
   }
 }
 
-export async function postProfile(url, email, password) {
+export async function postProfile(url) {
   const token = getJWT();
   try {
     const response = await fetch(url, {
