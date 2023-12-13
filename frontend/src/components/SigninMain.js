@@ -53,6 +53,10 @@ function SigninMain() {
 
     //call API pour validation login
 
+    /*si le token est présent, le mail et remember me validé et password et email non modifié 
+    le programme va chercher le profil et passe à la page account.
+    sinon validation du login avant de récupérer le profil
+    */
     if (rememberMeFlag === true && email === "" && password === "") {
       handleClickCheckedBox(checkbox.current.checked, storageEmail);
       await dispatch(fetchUser({ storageEmail, password: "REMEMBERME" }));
