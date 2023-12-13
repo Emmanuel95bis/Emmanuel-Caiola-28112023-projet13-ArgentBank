@@ -4,7 +4,7 @@ import argentBankLogo from "../asset/argentBankLogo.png";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { logout } from "../reducer/UsersReducer3";
+import { logout } from "../reducer/UsersReducer";
 
 function Navigation2(props) {
   let user = useSelector((state) => state.user);

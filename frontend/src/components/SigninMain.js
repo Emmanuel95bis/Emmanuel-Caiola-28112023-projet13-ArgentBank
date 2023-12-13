@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import "../styles/main.css";
 
-import { fetchUser } from "../reducer/UsersReducer3";
+import { fetchUser } from "../reducer/UsersReducer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setChecked,

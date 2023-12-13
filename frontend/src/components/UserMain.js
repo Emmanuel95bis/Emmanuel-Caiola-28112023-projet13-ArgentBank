@@ -2,7 +2,7 @@ import "../styles/main.css";
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../reducer/UsersReducer3";
+import { updateProfile } from "../reducer/UsersReducer";
 
 import { AccountSection } from "./AccountSection";
 import { Button } from "./Button";
