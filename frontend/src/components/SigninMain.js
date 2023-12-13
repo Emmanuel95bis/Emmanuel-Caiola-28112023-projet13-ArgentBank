@@ -4,19 +4,23 @@ import "../styles/main.css";
 
 import { fetchUser } from "../reducer/UsersReducer3";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  setChecked,
+  getChecked,
+  setLogin,
+  getJWT,
+  getLogin,
+} from "../authentification/Localstorage";
 
-/*
-const handleClickCheckedBox = (checked, email, password) => {
+const handleClickCheckedBox = (checked, email) => {
   if (checked) {
-    console.log("checked" + checked);
     setChecked(checked);
-    setLogin(email, password);
+    setLogin(email);
   } else {
-    console.log("checked" + checked);
     setChecked(checked);
-    setLogin("", "");
+    setLogin("");
   }
-};*/
+};
 
 function SigninMain() {
   const checkbox = useRef();
@@ -29,6 +33,15 @@ function SigninMain() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const storageEmail = getLogin();
+  const storageChecked = getChecked();
+  const storageToken = getJWT();
+  let rememberMeFlag = false;
+
+  if (storageToken !== "" && storageEmail !== "" && storageChecked === "true") {
+    rememberMeFlag = true;
+  }
+
   const user = useSelector((state) => state.user);
   useEffect(() => {
     setLogstate(user.logged);
@@ -39,7 +52,14 @@ function SigninMain() {
     e.preventDefault();
 
     //call API pour validation login
-    await dispatch(fetchUser({ email, password }));
+
+    if (rememberMeFlag === true && email === "" && password === "") {
+      handleClickCheckedBox(checkbox.current.checked, storageEmail);
+      await dispatch(fetchUser({ storageEmail, password: "REMEMBERME" }));
+      navigate("/UserInformation");
+    } else {
+      await dispatch(fetchUser({ email, password }));
+    }
 
     //affichage du message d'erreur
     setErrorMessage(true);
@@ -49,7 +69,7 @@ function SigninMain() {
   //vérification de la case remember me et traitement en fonction de son état
   useEffect(() => {
     if (logstate) {
-      //handleClickCheckedBox(checkbox.current.checked, email, password);
+      handleClickCheckedBox(checkbox.current.checked, email);
       navigate("/UserInformation");
     } else {
       navigate("/signin");
@@ -71,6 +91,7 @@ function SigninMain() {
               type="text"
               id="username"
               value={email}
+              placeholder={rememberMeFlag ? storageEmail : ""}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -80,11 +101,17 @@ function SigninMain() {
               type="password"
               id="password"
               value={password}
+              placeholder={rememberMeFlag ? "********" : ""}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" ref={checkbox} />
+            <input
+              type="checkbox"
+              id="remember-me"
+              ref={checkbox}
+              defaultChecked={storageChecked === "true"}
+            />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button" type="submit">

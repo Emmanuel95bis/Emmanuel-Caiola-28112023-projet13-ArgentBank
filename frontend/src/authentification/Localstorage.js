@@ -26,11 +26,10 @@ export const setChecked = (stateChecked) => {
   localStorage.setItem("rememberMe", stateChecked);
 };
 
-export const setLogin = (email, password) => {
+export const setLogin = (email) => {
   localStorage.removeItem("email");
   localStorage.removeItem("password");
   localStorage.setItem("email", email);
-  localStorage.setItem("password", password);
 };
 
 export const getChecked = () => {
@@ -40,6 +39,5 @@ export const getChecked = () => {
 
 export const getLogin = () => {
   const email = localStorage.getItem("email");
-  const password = localStorage.getItem("password");
-  return [email, password];
+  return email;
 };

@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../reducer/UsersReducer3";
 
 import { AccountSection } from "./AccountSection";
+import { Button } from "./Button";
 
 function UserMain() {
+  const [initialFirstname, setInitialFirstname] = useState("Tonis");
+  const [initialLastname, setInitialLastname] = useState("Jarvis");
   const [firstname, setFirstname] = useState("Tonis");
   const [lastname, setLastname] = useState("Jarvis");
   const [isEditing, setIsEditing] = useState(false);
@@ -19,6 +22,8 @@ function UserMain() {
   useEffect(() => {
     setFirstname(user.data.firstName);
     setLastname(user.data.lastName);
+    setInitialFirstname(user.data.firstName);
+    setInitialLastname(user.data.lastName);
   }, [user.data.firstName, user.data.lastName]);
 
   const changeName = async () => {
@@ -34,6 +39,8 @@ function UserMain() {
   //inverser set editing pour changer de menu
   const changeHeader = () => {
     setIsEditing(!isEditing);
+    setFirstname(initialFirstname);
+    setLastname(initialLastname);
   };
 
   return (
@@ -59,12 +66,9 @@ function UserMain() {
             onChange={(e) => setLastname(e.target.value)}
           ></input>
           <br />
-          <button className="save-button" onClick={changeName}>
-            Save
-          </button>{" "}
-          <button className="save-button" onClick={changeHeader}>
-            Cancel
-          </button>
+          <Button title="Save" funct={changeName} />
+
+          <Button title="Cancel" funct={changeHeader} />
         </div>
       ) : (
         <div className="header">
@@ -73,9 +77,7 @@ function UserMain() {
             <br />
             {firstname} {lastname}!
           </h1>
-          <button className="edit-button" onClick={changeHeader}>
-            Edit Name
-          </button>
+          <Button title="Edit Name" funct={changeHeader} />
         </div>
       )}
 
